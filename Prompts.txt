@@ -1,0 +1,32 @@
+AI Usage Log – Fan-Out Engine Assignment
+
+Tool Used:
+- ChatGPT
+- Cursor (occasionally)
+
+Purpose of AI Usage:
+AI tools were used strictly as a productivity aid for:
+- Boilerplate generation
+- Clarifying Java 21 Virtual Thread semantics
+- Reviewing architectural approaches at a high level
+
+Prompts Used (Representative):
+
+1. "Design a high-throughput Java fan-out ingestion engine using Virtual Threads."
+2. "Explain how to implement rate limiting using Semaphore in Java."
+3. "Provide a simple retry pattern with max retry limit."
+4. "How can a BlockingQueue provide backpressure in a producer-consumer system?"
+5. "What is a clean way to structure transformation strategies in Java?"
+
+Manual Work & Validation:
+- All core components (FanOutOrchestrator, FileIngestor, RetryExecutor, DLQ, MetricsReporter)
+  were manually written and iteratively refined.
+- Concurrency, retry behavior, and backpressure were validated through:
+  - Local execution
+  - Controlled failures
+  - Unit and integration testing
+
+No AI-generated code was used without review.
+All architectural and implementation decisions were manually verified and tested.
+
+This log is provided in the interest of transparency.

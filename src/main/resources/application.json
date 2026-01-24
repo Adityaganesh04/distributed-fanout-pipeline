@@ -1,0 +1,10 @@
+{
+  "inputFile": "data.csv",
+  "queueCapacity": 1000,
+  "sinks": {
+    "REST": { "rateLimit": 50 },
+    "GRPC": { "rateLimit": 100 },
+    "QUEUE": { "rateLimit": 500 },
+    "WIDE_COLUMN_DB": { "rateLimit": 1000 }
+  }
+}
