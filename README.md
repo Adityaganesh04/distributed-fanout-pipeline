@@ -133,36 +133,43 @@ and can be externalized with minimal changes if required.
 
 Note: Core wiring is intentionally explicit for clarity, while critical tunables are externalized.
 
-Sample Input
+### Sample Input
 This file exists solely for demonstration and testing; the engine supports arbitrarily large files without code changes.
 
 The repository includes a small sample CSV file used for demonstration:
 
-data.csv
-
+**`data.csv`**
+```csv
 id,name,age,country
 1,Alice,29,India
 2,Bob,35,USA
 3,Charlie,41,UK
 4,Deepak,27,India
 5,Emily,32,Canada
+```
+
 This file can be replaced with larger datasets without any code changes.
 The engine was locally tested with large CSV files (10k+ rows) to validate backpressure and throttling behavior.
 
-How to Build & Run
-Prerequisites
+### How to Build & Run
+#### Prerequisites
 Java 21+
 
 Maven 3.9+
 
 Build
-mvn clean package
+```mvn clean package
+```
+
 Run
-mvn exec:java
+```mvn exec:java
+```
 Ensure data.csv exists in the project root before running.
 
 Running Tests
-mvn test
+```mvn test
+```
+
 Test Coverage Includes
 Transformer correctness
 
