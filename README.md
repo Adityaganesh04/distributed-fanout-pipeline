@@ -61,8 +61,6 @@ Fan-Out Orchestrator (Virtual Threads)
       REST     gRPC     Queue     DB
       Sink     Sink      Sink     Sink
 
-
-
 ---
 
 ## Module Breakdown
@@ -109,42 +107,53 @@ Adding a new sink **does not require modifying the orchestrator**.
 
 ## Configuration
 
-Configuration is externalized via `src/main/resources/config.json` and is used to define:
-- Sink rate limits
-- Retry limits
+Configuration is externalized via `src/main/resources/application.json` and is used to define:
+
 - Input file path
 - Queue capacity (backpressure tuning)
+- Per-sink rate limits (REST, gRPC, Queue, Wide-Column DB)
 
+Retry behavior is intentionally fixed at a maximum of 3 attempts in code for clarity and determinism,
+and can be externalized with minimal changes if required.
 
-> Note: Core wiring is intentionally explicit for clarity, while critical tunables are externalized.
+### Example Configuration (`application.json`)
 
----
+```json
+{
+  "inputFile": "data.csv",
+  "queueCapacity": 1000,
+  "sinks": {
+    "REST": { "rateLimit": 50 },
+    "GRPC": { "rateLimit": 100 },
+    "QUEUE": { "rateLimit": 500 },
+    "WIDE_COLUMN_DB": { "rateLimit": 1000 }
+  }
+}
+Note: Core wiring is intentionally explicit for clarity, while critical tunables are externalized.
 
-## Sample Input
+Sample Input
 This file exists solely for demonstration and testing; the engine supports arbitrarily large files without code changes.
+
 The repository includes a small sample CSV file used for demonstration:
 
-**`data.csv`**
+data.csv
+
 id,name,age,country
 1,Alice,29,India
 2,Bob,35,USA
 3,Charlie,41,UK
 4,Deepak,27,India
 5,Emily,32,Canada
-
-
 This file can be replaced with larger datasets without any code changes.
-“The engine was locally tested with large CSV files (10k+ rows) to validate backpressure and throttling behavior.”
----
+The engine was locally tested with large CSV files (10k+ rows) to validate backpressure and throttling behavior.
 
-## How to Build & Run
+How to Build & Run
+Prerequisites
+Java 21+
 
-### Prerequisites
-- Java 21+
-- Maven 3.9+
+Maven 3.9+
 
-### Build
-```bash
+Build
 mvn clean package
 Run
 mvn exec:java
@@ -163,31 +172,28 @@ All tests pass with BUILD SUCCESS.
 
 Design Decisions
 Virtual Threads vs Reactive Frameworks
-
 Virtual Threads provide high concurrency with significantly simpler code
 
 Easier debugging and reasoning compared to reactive pipelines
 
 BlockingQueue for Backpressure
-
 Natural, predictable flow control
 
 Prevents producer from overwhelming consumers
 
 Semaphore-Based Rate Limiting
-
 Lightweight, deterministic, and dependency-free
 
 Suitable for backend ingestion pipelines
 
 Explicit Failure Accounting
-
 Every record ends in either success or DLQ
 
 Guarantees zero silent data loss
 
 AI Tooling Declaration
 AI tools (ChatGPT and Cursor) were used to accelerate boilerplate generation and explore architectural patterns.
+
 All core logic — including Virtual Thread orchestration, backpressure handling, retry semantics, DLQ design, and test validation — was manually implemented, reviewed, and validated.
 
 A complete prompt history is included in Prompts.txt.
