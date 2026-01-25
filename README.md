@@ -148,61 +148,78 @@ id,name,age,country
 5,Emily,32,Canada
 ```
 
-This file can be replaced with larger datasets without any code changes.
+This file can be replaced with larger datasets without any code changes.  
 The engine was locally tested with large CSV files (10k+ rows) to validate backpressure and throttling behavior.
 
+---
+
 ### How to Build & Run
+
 #### Prerequisites
-Java 21+
+- Java 21+
+- Maven 3.9+
 
-Maven 3.9+
-
-Build
-```mvn clean package
+#### Build
+```bash
+mvn clean package
 ```
 
-Run
-```mvn exec:java
+### Run
+```bash
+mvn exec:java
 ```
+
 Ensure data.csv exists in the project root before running.
 
-Running Tests
-```mvn test
+### Running Tests
+```bash
+mvn test
 ```
 
-Test Coverage Includes
-Transformer correctness
+---
 
-Retry executor behavior
+### Test Coverage
 
-Orchestrator fan-out using mocked sinks (Mockito)
+The following areas are covered by automated tests:
 
-All tests pass with BUILD SUCCESS.
+- **Transformer correctness**
+- **Retry executor behavior**
+- **Orchestrator fan-out** using mocked sinks (Mockito)
 
-Design Decisions
-Virtual Threads vs Reactive Frameworks
-Virtual Threads provide high concurrency with significantly simpler code
+All tests pass with **BUILD SUCCESS**.
 
-Easier debugging and reasoning compared to reactive pipelines
+---
 
-BlockingQueue for Backpressure
-Natural, predictable flow control
+### Design Decisions
 
-Prevents producer from overwhelming consumers
+#### Virtual Threads vs Reactive Frameworks
+- Virtual Threads provide **high concurrency** with significantly simpler code
+- Easier debugging and reasoning compared to reactive pipelines
 
-Semaphore-Based Rate Limiting
-Lightweight, deterministic, and dependency-free
+#### Backpressure Handling
+- **BlockingQueue-based backpressure**
+  - Natural and predictable flow control
+  - Prevents producers from overwhelming consumers
 
-Suitable for backend ingestion pipelines
+#### Rate Limiting Strategy
+- **Semaphore-based rate limiting**
+  - Lightweight and deterministic
+  - Dependency-free
+  - Suitable for backend ingestion pipelines
 
-Explicit Failure Accounting
-Every record ends in either success or DLQ
+#### Failure Accounting & Reliability
+- Every record ends in **either success or DLQ**
+- Guarantees **zero silent data loss**
 
-Guarantees zero silent data loss
+---
 
-AI Tooling Declaration
-AI tools (ChatGPT and Cursor) were used to accelerate boilerplate generation and explore architectural patterns.
+### AI Tooling Declaration
 
-All core logic — including Virtual Thread orchestration, backpressure handling, retry semantics, DLQ design, and test validation — was manually implemented, reviewed, and validated.
+AI tools (**ChatGPT** and **Cursor**) were used to accelerate:
+- Boilerplate generation
+- Exploration of architectural patterns
 
-A complete prompt history is included in Prompts.txt.
+All core logic — including **Virtual Thread orchestration**, **backpressure handling**,  
+**retry semantics**, **DLQ design**, and **test validation** — was **manually implemented, reviewed, and validated**.
+
+A complete prompt history is included in **`Prompts.txt`**.
