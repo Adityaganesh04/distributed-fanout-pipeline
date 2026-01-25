@@ -128,7 +128,8 @@ and can be externalized with minimal changes if required.
     "QUEUE": { "rateLimit": 500 },
     "WIDE_COLUMN_DB": { "rateLimit": 1000 }
   }
-}```
+}
+```
 
 Note: Core wiring is intentionally explicit for clarity, while critical tunables are externalized.
 
