@@ -15,13 +15,13 @@ public class RetryExecutor {
         for (int attempt = 1; attempt <= maxRetries; attempt++) {
             try {
                 if (task.call()) {
-                    return true; // ✅ SUCCESS → STOP IMMEDIATELY
+                    return true; 
                 }
             } catch (Exception ignored) {
-                // swallow and retry
+
             }
         }
 
-        return false; // ❌ only after ALL retries fail
+        return false;
     }
 }

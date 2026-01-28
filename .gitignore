@@ -1,22 +1,16 @@
-# Maven
 target/
 
-# Manual Build Output (From your README instructions)
 bin/
 
-# Logs
 *.log
 
-# OS
 .DS_Store
 Thumbs.db
 
-# IDEs
 .idea/
 .vscode/
 *.swp
 *.iml
 
-# Java
 *.class
 *.jar

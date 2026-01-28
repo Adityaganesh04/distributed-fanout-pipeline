@@ -55,7 +55,7 @@ public class FanOutOrchestrator {
 
                         boolean success = retryExecutor.execute(() -> {
                             try {
-                                limiter.acquire();                         // may throw InterruptedException
+                                limiter.acquire();                         
                                 byte[] payload = transformer.transform(finalRecord);
                                 sink.send(payload);
                                 return true;

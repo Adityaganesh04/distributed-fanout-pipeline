@@ -9,7 +9,6 @@ public class RestSink implements Sink {
 
     @Override
     public void send(byte[] payload) {
-        // simulate HTTP call
         try {
             Thread.sleep(10);
         } catch (InterruptedException ignored) {}
