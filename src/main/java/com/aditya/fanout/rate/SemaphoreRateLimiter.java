@@ -10,7 +10,6 @@ public class SemaphoreRateLimiter {
     public SemaphoreRateLimiter(int permitsPerSecond) {
         this.semaphore = new Semaphore(permitsPerSecond);
 
-        // Refill thread
         Thread refillThread = new Thread(() -> {
             while (true) {
                 try {

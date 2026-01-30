@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executors;
 
-public class FanOutOrchestrator {
+public class FanOutOrchestratorTest {
 
     private final BlockingQueue<String> queue;
     private final Map<Sink, Transformer> transformers;
@@ -21,7 +21,7 @@ public class FanOutOrchestrator {
     private final DeadLetterQueue dlq = new DeadLetterQueue();
     private final RetryExecutor retryExecutor = new RetryExecutor(3);
 
-    public FanOutOrchestrator(
+    public FanOutOrchestratorTest(
             BlockingQueue<String> queue,
             Map<Sink, Transformer> transformers,
             Map<Sink, SemaphoreRateLimiter> limiters,

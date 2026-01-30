@@ -34,10 +34,6 @@ public class FanOutOrchestrator {
         this.metrics = metrics;
     }
 
-    /**
-     * Starts fan-out workers and metrics reporter.
-     * Returns a handle so callers (tests / main) can shut down cleanly.
-     */
     public AutoCloseable start() {
 
         ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor();
@@ -60,10 +56,10 @@ public class FanOutOrchestrator {
 
                         boolean success = retryExecutor.execute(() -> {
                         try {
-                            limiter.acquire(); // rate limit
+                            limiter.acquire();
                             byte[] payload = transformer.transform(payloadSource);
                             sink.send(payload);
-                            return true; // ✅ REQUIRED
+                            return true; 
                         } catch (InterruptedException e) {
                             Thread.currentThread().interrupt();
                             return false;
@@ -94,7 +90,6 @@ public class FanOutOrchestrator {
             });
         }
 
-        // 🔑 CLEAN SHUTDOWN HANDLE
         return () -> {
             metrics.stop();
             metricsThread.interrupt();

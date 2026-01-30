@@ -19,10 +19,6 @@ public class MetricsReporter implements Runnable {
 
     private long lastPrintedTotal = 0;
 
-    /* =======================
-       Recording APIs
-       ======================= */
-
     public void recordSuccess(Sink sink) {
         success.computeIfAbsent(sink.name(), k -> new AtomicLong()).incrementAndGet();
         totalProcessed.incrementAndGet();
@@ -37,17 +33,9 @@ public class MetricsReporter implements Runnable {
         dlqCount.incrementAndGet();
     }
 
-    /* =======================
-       Lifecycle control
-       ======================= */
-
     public void stop() {
         running.set(false);
     }
-
-    /* =======================
-       Reporting loop
-       ======================= */
 
     @Override
     public void run() {
