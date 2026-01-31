@@ -47,14 +47,15 @@ The solution leverages **Java 21 Virtual Threads**, **streaming I/O**, and the *
 
 ```mermaid
 flowchart TB
-    A[Input File<br/>(CSV / JSONL)] --> B[Ingestion Layer<br/>(Streaming Reader)]
-    B --> C[Bounded BlockingQueue<br/>(Backpressure & Flow Control)]
-    C --> D[Fan-Out Orchestrator<br/>(Virtual Threads)]
+    A["Input File (CSV / JSONL)"] --> B["Ingestion Layer (Streaming Reader)"]
+    B --> C["Bounded BlockingQueue (Backpressure & Flow Control)"]
+    C --> D["Fan-Out Orchestrator (Virtual Threads)"]
 
-    D --> E[REST Sink]
-    D --> F[gRPC Sink]
-    D --> G[Queue Sink]
-    D --> H[DB Sink]
+    D --> E["REST Sink"]
+    D --> F["gRPC Sink"]
+    D --> G["Queue Sink"]
+    D --> H["DB Sink"]
+
 
 ---
 
