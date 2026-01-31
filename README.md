@@ -55,7 +55,7 @@ flowchart TB
     D --> F["gRPC Sink"]
     D --> G["Queue Sink"]
     D --> H["DB Sink"]
-
+```
 
 ---
 
