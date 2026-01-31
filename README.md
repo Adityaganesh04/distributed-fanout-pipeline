@@ -45,21 +45,16 @@ The solution leverages **Java 21 Virtual Threads**, **streaming I/O**, and the *
 
 ### High-Level Data Flow
 
-Input File (CSV / JSONL)
-        |
-        v
-Ingestion Layer (Streaming Reader)
-        |
-        v
-Bounded BlockingQueue (Backpressure)
-(The bounded queue blocks the producer when sinks are slow,
-preventing memory overload and enforcing flow control.)
-        |
-        v
-Fan-Out Orchestrator (Virtual Threads)
-        |        |        |        |
-      REST     gRPC     Queue     DB
-      Sink     Sink      Sink     Sink
+```mermaid
+flowchart TB
+    A[Input File<br/>(CSV / JSONL)] --> B[Ingestion Layer<br/>(Streaming Reader)]
+    B --> C[Bounded BlockingQueue<br/>(Backpressure & Flow Control)]
+    C --> D[Fan-Out Orchestrator<br/>(Virtual Threads)]
+
+    D --> E[REST Sink]
+    D --> F[gRPC Sink]
+    D --> G[Queue Sink]
+    D --> H[DB Sink]
 
 ---
 
@@ -211,15 +206,4 @@ All tests pass with **BUILD SUCCESS**.
 - Every record ends in **either success or DLQ**
 - Guarantees **zero silent data loss**
 
----
 
-### AI Tooling Declaration
-
-AI tools (**ChatGPT** and **Cursor**) were used to accelerate:
-- Boilerplate generation
-- Exploration of architectural patterns
-
-All core logic — including **Virtual Thread orchestration**, **backpressure handling**,  
-**retry semantics**, **DLQ design**, and **test validation** — was **manually implemented, reviewed, and validated**.
-
-A complete prompt history is included in **`Prompts.txt`**.
